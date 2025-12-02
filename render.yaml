@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: news-headline-bot
+    env: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        value: "Y8463091975:AAFhn8_4GJwI5NRPdknWKrDG0_O9jHbhjCc"
