@@ -1,38 +1,36 @@
-import requests
-from bs4 import BeautifulSoup
-import telebot
 import os
+import requests
+import telebot
 
-# Telegram Bot token from environment variable
+# Read Telegram token and NewsAPI key from environment variables
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
+
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# Function to scrape website
+# Function to get top headlines
 def get_headlines():
-    url = "https://www.bbc.com/news"  # Example site
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
-    headlines = []
+    url = f"https://newsapi.org/v2/top-headlines?country=in&apiKey={NEWS_API_KEY}"
+    try:
+        response = requests.get(url).json()
+        articles = response.get("articles", [])
+        headlines = [article["title"] for article in articles if article.get("title")]
+        return headlines[:10]  # return top 10 headlines
+    except Exception as e:
+        print("Error fetching news:", e)
+        return []
 
-    # Example: get headlines in <h3> tags (modify for your target site)
-    for h3 in soup.find_all("h3"):
-        text = h3.get_text(strip=True)
-        if text and text not in headlines:
-            headlines.append(text)
-
-    # Limit to top 10 headlines
-    return headlines[:10]
-
-# Start / help commands
-@bot.message_handler(commands=['start', 'help'])
+# Start / help command
+@bot.message_handler(commands=["start", "help"])
 def send_welcome(message):
     bot.send_message(
         message.chat.id,
-        "Hello! I can give you the latest news headlines.\nSend /getnews to get the news."
+        "📰 Hello! I can give you the latest news headlines from India.\n"
+        "Send /getnews to get the top news!"
     )
 
-# Command to get news
-@bot.message_handler(commands=['getnews'])
+# Get news command
+@bot.message_handler(commands=["getnews"])
 def send_news(message):
     headlines = get_headlines()
     if headlines:
