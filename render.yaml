@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: news-headline-bot
+    name: news-bot
     env: python
     plan: free
     branch: main
@@ -8,4 +8,6 @@ services:
     startCommand: python bot.py
     envVars:
       - key: BOT_TOKEN
-        value: "Y8463091975:AAFhn8_4GJwI5NRPdknWKrDG0_O9jHbhjCc"
+        value: "YOUR_TELEGRAM_BOT_TOKEN"
+      - key: NEWS_API_KEY
+        value: "YOUR_NEWSAPI_KEY"
