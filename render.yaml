@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: news-bot
+    name: weather-bot
     env: python
     plan: free
     branch: main
@@ -8,6 +8,6 @@ services:
     startCommand: python bot.py
     envVars:
       - key: BOT_TOKEN
-        value: "YOUR_TELEGRAM_BOT_TOKEN"
-      - key: NEWS_API_KEY
-        value: "YOUR_NEWSAPI_KEY"
+        value: "8463091975:AAFhn8_4GJwI5NRPdknWKrDG0_O9jHbhjCc"
+      - key: WEATHER_API_KEY
+        value: "d5001756e056a747cdfd19385328e23b"
